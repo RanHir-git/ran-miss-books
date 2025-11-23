@@ -1,11 +1,11 @@
-import { CarFilter as BookFilter } from "../cmps/BookFilter.jsx"
-import { CarList as BookList } from "../cmps/BookList.jsx"
-import { bookService as bookService } from "../services/book.service.js"
-import { CarDetails as BookDetails } from "./BookDetails.jsx"
+import { BookFilter } from "../cmps/BookFilter.jsx"
+import { BookList } from "../cmps/BookList.jsx"
+import { bookService } from "../services/book.service.js"
+import { BookDetails } from "./BookDetails.jsx"
 
 const { useState, useEffect } = React
 
-export function CarIndex() {
+export function BookIndex() {
 
     const [books, setBooks] = useState(null)
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
@@ -35,8 +35,8 @@ export function CarIndex() {
             })
     }
 
-    function onSelectBookId(carId) {
-        setSelectedBookId(carId)
+    function onSelectBookId(bookId) {
+        setSelectedBookId(bookId)
     }
 
     function onSetFilter(newFilterBy) { //{ txt: '...' }

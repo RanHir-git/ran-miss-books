@@ -17,7 +17,7 @@ export function Home() {
 
     return (
         <section className="home container">
-            <h1 ref={h1Ref} >Car's R Us!</h1>
+            <h1 ref={h1Ref} >Miss Books</h1>
             <img ref={imgRef} src="../assets/img/react.png" alt="hero-image" />
             <button onClick={onActivate}>Activate</button>
         </section>

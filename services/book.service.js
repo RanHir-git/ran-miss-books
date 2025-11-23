@@ -20,8 +20,8 @@ function query(filterBy = {}) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 books = books.filter(book => regExp.test(book.title))
             }
-            if (filterBy.price) {
-                books = books.filter(book => book.price >= filterBy.listPrice)
+            if (filterBy.listPrice) {
+                books = books.filter(book => book.listPrice.amount >= filterBy.listPrice)
             }
             return books
         })
@@ -44,8 +44,17 @@ function save(book) {
     }
 }
 
-function getEmptyBook(title = '', listPrice = '') {
-    return { title: title, listPrice: listPrice }
+function getEmptyBook(title = '', listPriceAmount = 100) {
+    return { 
+        title, 
+        listPrice: {
+            amount: listPriceAmount,
+            currencyCode: 'EUR',
+            isOnSale: false
+        }, 
+        description: '', 
+        thumbnail: '' 
+    }
 }
 
 function getDefaultFilter() {
@@ -65,8 +74,10 @@ function _createBooks() {
     }
 }
 
-function _createBook(title, listPrice = 100) {
-    const book = getEmptyBook(title, listPrice)
+function _createBook(title, listPriceAmount = 100) {
+    const book = getEmptyBook(title, listPriceAmount)
     book.id = makeId()
+    book.description = "placerat nisi sodales suscipit tellus"
+    book.thumbnail = "https://www.coding-academy.org/books-photos/20.jpg"
     return book
 }
