@@ -1,5 +1,5 @@
 
-export function makeId(length = 6) {
+export function makeId(length = 4) {
     var txt = ''
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
@@ -9,6 +9,7 @@ export function makeId(length = 6) {
 
     return txt
 }
+
 
 export function makeLorem(size = 100) {
     var words = ['The sky', 'above', 'the port', 'was', 'the color of television', 'tuned', 'to', 'a dead channel', '.', 'All', 'this happened', 'more or less', '.', 'I', 'had', 'the story', 'bit by bit', 'from various people', 'and', 'as generally', 'happens', 'in such cases', 'each time', 'it', 'was', 'a different story', '.', 'It', 'was', 'a pleasure', 'to', 'burn']
@@ -64,4 +65,22 @@ export function debounce(func, delay) {
             func(...args)
         }, delay)
     }
+}
+
+export function randomTrueFalse() {
+    return Math.random() >= 0.5
+}
+
+export function getData(url, cb) {
+    const xhr = new XMLHttpRequest()
+
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            const ans = JSON.parse(xhr.responseText)
+            cb(ans)
+        }
+    }
+
+    xhr.open('GET', url, true)
+    xhr.send()
 }

@@ -11,14 +11,13 @@
 /* Pages */
 @import "pages/Home.css";
 @import "pages/About.css";
-@import "pages/CarIndex.css";
-@import "pages/CarDetails.css";
-@import "pages/CarEdit.css";
-
+@import "pages/BookIndex.css";
+@import "pages/BookDetails.css";
+@import "pages/BookEdit.css";
 
 /* Components */
 @import "cmps/AppHeader.css";
 @import "cmps/UserMsg.css";
-@import "cmps/CarFilter.css";
-@import "cmps/CarList.css";
-@import "cmps/CarPreview.css";
+@import "cmps/BookFilter.css";
+@import "cmps/BookList.css";
+@import "cmps/BookPreview.css";

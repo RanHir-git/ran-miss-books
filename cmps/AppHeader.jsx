@@ -1,16 +1,18 @@
+const { Link, NavLink } = ReactRouterDOM
 
-export function AppHeader({ onSetPage }) {
 
+export function AppHeader() {
     return (
         <header className="app-header container">
             <section>
-                <h1>React Car App</h1>
+                <h1>React Book App</h1>
                 <nav className="app-nav">
-                    <a onClick={() => onSetPage('home')}>Home</a>
-                    <a onClick={() => onSetPage('about')}>About</a>
-                    <a onClick={() => onSetPage('car')}>Cars</a>
+                    <NavLink to="/home">Home</NavLink>
+                    <NavLink to="/about">About</NavLink>
+                    <NavLink to="/book">Books</NavLink>
                 </nav>
             </section>
         </header>
     )
+
 }

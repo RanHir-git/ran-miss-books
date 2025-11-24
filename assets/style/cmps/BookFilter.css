@@ -1,0 +1,39 @@
+.Book-filter {
+    background-color: var(--clr2bg);
+    padding-block: 1em;
+}
+
+.Book-filter > h2 {
+    margin-top: 0;
+    color: var(--clr1);
+}
+
+.Book-filter form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(130px, 180px));
+    gap: .5em;
+    justify-content: center;
+}
+
+.Book-filter form label {
+    justify-self: start;
+    color: var(--clr2);
+}
+
+.Book-filter form input {
+    justify-self: end;
+}
+
+.Book-filter form button {
+    margin-inline: 0;
+    grid-column: 1 / 3;
+    justify-self: center;
+}
+
+
+.Book-filter form input#onSale {
+    justify-self: start;
+    margin-left: 0.5em;
+    width: auto;
+}
+

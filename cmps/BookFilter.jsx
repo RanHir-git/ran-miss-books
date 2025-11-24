@@ -20,7 +20,7 @@ export function BookFilter({ defaultFilter, onSetFilter }) {
             case 'number':
             case 'range':
                 value = +value
-                break;
+                break
 
             case 'checkbox':
                 value = target.checked
@@ -32,7 +32,7 @@ export function BookFilter({ defaultFilter, onSetFilter }) {
     }
 
 
-    const { txt, listPrice } = filterByToEdit
+    const { txt, listPrice, onSale } = filterByToEdit
     return (
         <section className="Book-filter container">
             <h2>Filter Our Books</h2>
@@ -41,8 +41,12 @@ export function BookFilter({ defaultFilter, onSetFilter }) {
                 <label htmlFor="txt">Title</label>
                 <input onChange={handleChange} value={txt} name="txt" id="txt" type="text" />
 
-                <label htmlFor="listPrice">Price:</label>
+                <label htmlFor="listPrice">Price (min):</label>
                 <input onChange={handleChange} value={listPrice || ''} name="listPrice" id="listPrice" type="number" />
+
+                <label htmlFor="onSale">On Sale:</label>
+                <input onChange={handleChange} checked={onSale || false} name="onSale" id="onSale" type="checkbox" />
+
 
                 {/* <button>Submit</button> */}
             </form>
