@@ -14,7 +14,8 @@ export const bookService = {
     getEmptyBook,
     getDefaultFilter,
     addReview,
-    addGoogleBook
+    addGoogleBook,
+    getAllCategories
 }
 
 function query(filterBy = {}) {
@@ -29,6 +30,14 @@ function query(filterBy = {}) {
             }
             if (filterBy.onSale) {
                 books = books.filter(book => book.listPrice.isOnSale === true)
+            }
+            if (filterBy.categories && filterBy.categories.length > 0) {
+                const filterCategoriesLower = filterBy.categories.map(cat => cat.toLowerCase())
+                books = books.filter(book => 
+                    book.categories && book.categories.some(category => 
+                        filterCategoriesLower.includes(category.toLowerCase())
+                    )
+                )
             }
             return books
         })
@@ -79,7 +88,22 @@ function getEmptyBook(title = '', listPriceAmount = 100,trueFalse=false) {
 }
 
 function getDefaultFilter() {
-    return { txt: '', listPrice: '', onSale: false }
+    return { txt: '', listPrice: '', onSale: false, categories: [] }
+}
+
+function getAllCategories() {
+    return storageService.query(BOOK_KEY)
+        .then(books => {
+            const categoriesSet = new Set()
+            books.forEach(book => {
+                if (book.categories && book.categories.length > 0) {
+                    book.categories.forEach(category => {
+                        categoriesSet.add(category)
+                    })
+                }
+            })
+            return Array.from(categoriesSet).sort()
+        })
 }
 
 function addReview(bookId, review) {

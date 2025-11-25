@@ -17,7 +17,7 @@
     box-sizing: border-box;
     padding: 15px;
     margin-top: 20px;
-    background-color: var(--clr1bg);
+    background-color: rgba(175, 206, 148, 0.546);
     border-radius: 8px;
     box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.2);
     width: 100%;
@@ -41,3 +41,7 @@
     opacity: 0.7;
 }
 
+.book-list button img {
+    width: 20px;
+    height: 20px;
+}

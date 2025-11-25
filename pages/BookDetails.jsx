@@ -113,7 +113,10 @@ export function BookDetails() {
                 <ul>
                     {book.reviews && book.reviews.length > 0 ? (
                         book.reviews.map((review, idx) => (
-                            <li key={idx}>{review.fullname} - {review.rating} - {new Date(review.readAt).toLocaleDateString()}</li>
+                            <li key={idx}>
+                                <strong>{review.fullname}</strong> - Rating: {review.rating}/5 - {new Date(review.readAt).toLocaleDateString()}
+                                {review.review && <p>{review.review}</p>}
+                            </li>
                         ))
                     ) : (
                         <li>No reviews yet</li>
@@ -122,25 +125,29 @@ export function BookDetails() {
 
             </div>
             
-            {isAddReviewOpen && (
-                <AddReview 
-                    onReviewAdded={() => {
-                        loadBook()
-                        setIsAddReviewOpen(false)
-                    }}
-                    onCancel={() => setIsAddReviewOpen(false)}
-                />
-            )}
-            
             {!isAddReviewOpen && (
                 <button onClick={toggleAddReview}>
                     Add Review
                 </button>
             )}
+
+            {isAddReviewOpen && (
+                <div className="modal-overlay" onClick={() => setIsAddReviewOpen(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <AddReview 
+                            onReviewAdded={() => {
+                                loadBook()
+                                setIsAddReviewOpen(false)
+                            }}
+                            onCancel={() => setIsAddReviewOpen(false)}
+                        />
+                    </div>
+                </div>
+            )}
             
-            <section>
-                <button><Link to={`/book/${book.prevBookId}`}>Prev</Link></button>
-                <button><Link to={`/book/${book.nextBookId}`}>Next</Link></button>
+            <section className="book-details-buttons">
+                <button title="Previous Book"><Link to={`/book/${book.prevBookId}`}>←</Link></button>
+                <button title="Next Book"><Link to={`/book/${book.nextBookId}`}>→</Link></button>
             </section>
             <button onClick={onBack}>Back</button>
         </section>

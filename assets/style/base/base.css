@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    
 }
 
 
@@ -7,6 +8,9 @@ body {
     margin: 0;
     color: var(--gray3);
     font-size: 1.2rem;
+    background: url('../../img/a0f5e17c-8f13-4c5d-ab64-6b2b42767126.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
 }
 
 h1,

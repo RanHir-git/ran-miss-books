@@ -6,16 +6,18 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { BookAdd } from "../cmps/BookAdd.jsx"
 
 const { useState, useEffect } = React
-const { Link } = ReactRouterDOM
+const { Link, useSearchParams } = ReactRouterDOM
 
 export function BookIndex() {
 
     const [books, setBooks] = useState(null)
-    const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter(searchParams))
     const [selectedBookId, setSelectedBookId] = useState(null)
 
     useEffect(() => {
         loadBooks()
+        setSearchParams(filterBy)
     }, [filterBy])
 
     function loadBooks() {

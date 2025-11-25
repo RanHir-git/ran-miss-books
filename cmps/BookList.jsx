@@ -10,11 +10,11 @@ export function BookList({ books, onRemoveBook, onSelectBookId }) {
                 <li className="book-list-item" key={book.id} >
                     <BookPreview book={book} />
                     <section>
-                        <button onClick={() => onRemoveBook(book.id)}>
-                            Remove
-                        </button>
+                        <button title="Delete" onClick={() => onRemoveBook(book.id)}>
+                            <img src="../assets/img/trash-icon.svg" alt="Delete" />
+                        </button>   
                         <button><Link to={`/book/${book.id}`}>Details</Link></button>
-                        <button><Link to={`/book/edit/${book.id}`}>Edit</Link></button>
+                        <button title="Edit"><Link to={`/book/edit/${book.id}`}><img src="../assets/img/edit-icon.svg" alt="Edit" /></Link></button>
                     </section>
                 </li>
             ))}
