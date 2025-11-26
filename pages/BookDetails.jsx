@@ -2,36 +2,77 @@ import { bookService } from "../services/book.service.js"
 import { showErrorMsg } from "../services/event-bus.service.js"
 import { AddReview } from "../cmps/BookDetailsComps/AddReview.jsx"
 import { LongText } from "../cmps/LongText.jsx"
+import { animateCSS } from "../services/util.service.js"
 
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 const { useParams, useNavigate, Link } = ReactRouterDOM
 
 
 export function BookDetails() {
 
     const [book, setBook] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
     const [isAddReviewOpen, setIsAddReviewOpen] = useState(false)
     const { bookId } = useParams()
     const navigate = useNavigate()
+    const sectionRef = useRef(null) // reference to the section element
+    const prevBookIdRef = useRef(null)
+    const shouldFadeInRef = useRef(false)
 
-    useEffect(() => {
-        loadBook()
+    useEffect(() => {   //handle fadeOut when book is changed(+load book)
+        const hasPreviousBook = prevBookIdRef.current !== null && prevBookIdRef.current !== bookId
+        
+        if (hasPreviousBook && sectionRef.current) {
+            animateCSS(sectionRef.current, 'fadeOut', { isRemoveClass: false })
+                .then(() => {
+                    shouldFadeInRef.current = true
+                    loadBook()
+                })
+        } else {
+            //first load
+            shouldFadeInRef.current = true
+            loadBook()
+        }
+        prevBookIdRef.current = bookId
     }, [bookId])
 
+    //handle fadeIn when book is loaded and we're ready
+    useEffect(() => {
+        if (book && sectionRef.current && shouldFadeInRef.current) {
+            requestAnimationFrame(() => {
+                if (sectionRef.current) {
+                    //remove fadeOut classes, then fade in
+                    sectionRef.current.classList.remove('animate__animated', 'animate__fadeOut')
+                    animateCSS(sectionRef.current, 'fadeIn').then(() => {
+                        shouldFadeInRef.current = false
+                    })
+                }
+            })
+        }
+    }, [book])
+
     function loadBook() {
-        setIsLoading(true)
-        bookService.get(bookId)
-            .then(book => setBook(book))
+        return bookService.get(bookId)
+            .then(book => {
+                setBook(book)
+                return book
+            })
             .catch(err => {
                 console.log('err:', err)
                 showErrorMsg('Failed to load book')
+                shouldFadeInRef.current = false
             })
-            .finally(() => setIsLoading(false))
     }
 
     function onBack() {
-        navigate('/book')
+        if (sectionRef.current) {
+            // fade out before navigating
+            animateCSS(sectionRef.current, 'fadeOut', { isRemoveClass: false })
+                .then(() => {
+                    navigate('/book')
+                })
+        } else {
+            navigate('/book')
+        }
     }
 
     function toggleAddReview() {
@@ -73,9 +114,9 @@ export function BookDetails() {
         categories,
         language
     } = book
-    const loadingClass = isLoading ? 'loading' : ''
+    
     return (
-        <section className={`book-details container ${loadingClass}`}>
+        <section ref={sectionRef} className="book-details container">
 
             <h1>Title: {title}</h1>
             <h2>Price: <span className={formatPriceClass(listPrice.amount)}>{listPrice.amount} {listPrice.currencyCode}</span></h2>

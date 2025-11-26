@@ -4,8 +4,9 @@ import { bookService } from "../services/book.service.js"
 import { BookDetails } from "./BookDetails.jsx"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { BookAdd } from "../cmps/BookAdd.jsx"
+import { animateCSS } from "../services/util.service.js"
 
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 const { Link, useSearchParams } = ReactRouterDOM
 
 export function BookIndex() {
@@ -14,11 +15,23 @@ export function BookIndex() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter(searchParams))
     const [selectedBookId, setSelectedBookId] = useState(null)
+    const contentRef = useRef(null)
 
     useEffect(() => {
         loadBooks()
         setSearchParams(filterBy)
     }, [filterBy])
+
+    // Fade in when books are loaded or when returning from details
+    useEffect(() => {
+        if (books && contentRef.current && !selectedBookId) {
+            requestAnimationFrame(() => {
+                if (contentRef.current) {
+                    animateCSS(contentRef.current, 'fadeIn')
+                }
+            })
+        }
+    }, [books, selectedBookId])
 
     function loadBooks() {
         bookService.query(filterBy) // { txt: '...', minSpeed:150 }
@@ -54,7 +67,7 @@ export function BookIndex() {
     return (
         <section className="book-index">
             {!selectedBookId &&
-                <React.Fragment>
+                <div ref={contentRef}>
                     <BookFilter
                         defaultFilter={filterBy}
                         onSetFilter={onSetFilter}
@@ -68,7 +81,7 @@ export function BookIndex() {
                         onRemoveBook={onRemoveBook}
                         onSelectBookId={onSelectBookId}
                     />
-                </React.Fragment>
+                </div>
             }
 
             {selectedBookId &&

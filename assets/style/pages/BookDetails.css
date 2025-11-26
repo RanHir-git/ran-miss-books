@@ -89,10 +89,6 @@
     margin-top: -350px;
 }
 
-.book-details.loading {
-    opacity: 0.6;
-    pointer-events: none;
-}
 
 .add-review form{
     display: grid;
